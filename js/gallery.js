@@ -65,6 +65,7 @@ const images = [
 ];
 
 const galleryList = document.querySelector(".gallery");
+
 const makeListItem = (obj) => {
   const galleryItem = document.createElement("li");
   galleryItem.classList.add("gallery-item");
