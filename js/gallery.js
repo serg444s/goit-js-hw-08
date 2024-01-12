@@ -69,23 +69,40 @@ const galleryList = document.querySelector(".gallery");
 const makeListItem = (obj) => {
   const galleryItem = document.createElement("li");
   galleryItem.classList.add("gallery-item");
+  console.log(galleryItem);
 
   const galleryLink = document.createElement("a");
   galleryLink.classList.add("gallery-link");
-  galleryItem.href = obj.original;
+  galleryLink.href = obj.original;
 
+  console.log(galleryItem);
   const galleryImage = document.createElement("img");
   galleryImage.classList.add("gallery-image");
   galleryImage.alt = obj.description;
   galleryImage.src = obj.preview;
-  galleryImage.source = obj.original;
-
+  galleryImage.dataset.source = obj.original;
+  console.log(galleryImage);
   galleryLink.append(galleryImage);
-  galleryList.append(galleryLink);
-
+  galleryItem.append(galleryLink);
   return galleryItem;
 };
 
 const items = images.map(makeListItem);
 
 galleryList.append(...items);
+
+function onOpenModal() {
+  window.addEventListener("keydown", onEscPress);
+  document.body.classList.add("show-modal");
+}
+
+function onCloseModal() {
+  window.removeEventListener("keydown", onEscPress);
+  document.body.classList.remove("show-modal");
+}
+
+function onEscPress(event) {
+  if (event.code === "Escape") {
+    onCloseModal();
+  }
+}

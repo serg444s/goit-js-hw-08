@@ -17,8 +17,8 @@ body {
   max-width: 1440px;
   display: flex;
   flex-wrap: wrap;
-  gap: 48px 24px;
-  margin: 100px auto;
+  margin: 24px auto;
+  gap: 24px;
 }
 
 .gallery-item {
@@ -26,6 +26,20 @@ body {
 }
 
 .gallery-image {
-  max-width: 360px;
+  width: 360px;
+  height: 200px;
   display: block;
+  transition-property: width, height;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-image:hover {
+  width: 376px;
+  height: 208px;
+  border: 2px solid blue;
+}
+
+.show-modal {
+  background-color: rgba(46, 47, 66, 0.8);
 }
