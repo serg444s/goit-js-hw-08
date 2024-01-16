@@ -103,15 +103,15 @@ function onGalleryItemClick(event) {
       </div>
   `);
   instance.show();
-  window.addEventListener("keydown", onEscPress);
+  onShow: () => {
+    window.addEventListener("keydown", onEscPress);
+  };
 }
 
 galleryList.addEventListener("click", onGalleryItemClick);
 
 function onEscPress(event) {
   if (event.code === "Escape") {
-    console.log(event);
-    document.removeEventListener("keydown", onEscPress);
     instance.close();
   }
 }
