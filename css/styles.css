@@ -37,7 +37,7 @@ body {
 .gallery-image:hover {
   width: 376px;
   height: 208px;
-  border: 2px solid blue;
+  border: 3px solid blue;
 }
 
 .show-modal {

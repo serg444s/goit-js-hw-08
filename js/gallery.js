@@ -69,19 +69,19 @@ const galleryList = document.querySelector(".gallery");
 const makeListItem = (obj) => {
   const galleryItem = document.createElement("li");
   galleryItem.classList.add("gallery-item");
-  console.log(galleryItem);
+  // console.log(galleryItem);
 
   const galleryLink = document.createElement("a");
   galleryLink.classList.add("gallery-link");
   galleryLink.href = obj.original;
 
-  console.log(galleryItem);
+  // console.log(galleryItem);
   const galleryImage = document.createElement("img");
   galleryImage.classList.add("gallery-image");
   galleryImage.alt = obj.description;
   galleryImage.src = obj.preview;
   galleryImage.dataset.source = obj.original;
-  console.log(galleryImage);
+  // console.log(galleryImage);
   galleryLink.append(galleryImage);
   galleryItem.append(galleryLink);
   return galleryItem;
@@ -91,18 +91,27 @@ const items = images.map(makeListItem);
 
 galleryList.append(...items);
 
-function onOpenModal() {
+function onGalleryItemClick(event) {
+  event.preventDefault();
+  if (event.target.nodeName !== "IMG") {
+    return;
+  }
+  const currentImg = event.target;
+  const instance = basicLightbox.create(`
+      <div class="modal">
+          <img src="${currentImg.dataset.source}" alt="${currentImg.alt}">
+      </div>
+  `);
+  instance.show();
   window.addEventListener("keydown", onEscPress);
-  document.body.classList.add("show-modal");
 }
 
-function onCloseModal() {
-  window.removeEventListener("keydown", onEscPress);
-  document.body.classList.remove("show-modal");
-}
+galleryList.addEventListener("click", onGalleryItemClick);
 
 function onEscPress(event) {
   if (event.code === "Escape") {
-    onCloseModal();
+    console.log(event);
+    document.removeEventListener("keydown", onEscPress);
+    instance.close();
   }
 }
