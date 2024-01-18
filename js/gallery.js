@@ -66,49 +66,57 @@ const images = [
 
 const galleryList = document.querySelector(".gallery");
 
-const makeListItem = (obj) => {
-  const galleryItem = document.createElement("li");
-  galleryItem.classList.add("gallery-item");
-  // console.log(galleryItem);
+const instance = basicLightbox.create(
+  `  <div class="modal">
+          <img class="modal-img" src="" alt="">
+      </div>
+  `,
+  {
+    onShow: (instance) => {
+      document.addEventListener("keydown", onModalClose);
+    },
+    onClose: (instance) => {
+      document.removeEventListener("keydown", onModalClose);
+    },
+  }
+);
 
-  const galleryLink = document.createElement("a");
-  galleryLink.classList.add("gallery-link");
-  galleryLink.href = obj.original;
+galleryList.addEventListener("click", onGalleryItemClick);
+makeGalleryItem(images);
 
-  // console.log(galleryItem);
-  const galleryImage = document.createElement("img");
-  galleryImage.classList.add("gallery-image");
-  galleryImage.alt = obj.description;
-  galleryImage.src = obj.preview;
-  galleryImage.dataset.source = obj.original;
-  // console.log(galleryImage);
-  galleryLink.append(galleryImage);
-  galleryItem.append(galleryLink);
-  return galleryItem;
-};
+function makeGalleryItem(arr) {
+  const result = arr
+    .map(
+      (image) => `<li class="gallery-item">
+  <a class="gallery-link" href="${image.original}">
+    <img
+      class="gallery-image"
+      src="${image.preview}"
+      data-source="${image.original}"
+      alt="${image.description}"
+    />
+  </a>
+</li>`
+    )
+    .join("");
 
-const items = images.map(makeListItem);
-
-galleryList.append(...items);
+  galleryList.innerHTML = result;
+}
 
 function onGalleryItemClick(event) {
   event.preventDefault();
   if (event.target.nodeName !== "IMG") {
     return;
   }
-  const currentImg = event.target;
-  const instance = basicLightbox.create(`
-      <div class="modal">
-          <img src="${currentImg.dataset.source}" alt="${currentImg.alt}">
-      </div>
-  `);
-  instance.show();
 
-  document.addEventListener("keydown", (event) => {
-    if (event.code === "Escape") {
-      instance.close();
-    }
-  });
+  instance.show();
+  const currentImg = document.querySelector(".modal-img");
+  currentImg.src = event.target.dataset.source;
+  currentImg.alt = event.target.alt;
 }
 
-galleryList.addEventListener("click", onGalleryItemClick);
+function onModalClose(event) {
+  if (event.key === "Escape") {
+    instance.close();
+  }
+}
