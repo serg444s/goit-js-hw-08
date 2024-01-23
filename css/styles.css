@@ -25,8 +25,8 @@ body {
 }
 
 .gallery-image:hover {
-  border: 3px solid blue;
-  transform: scale(1.06);
+  border: 2px solid blue;
+  transform: scale(1.04);
 }
 
 .modal-img {
