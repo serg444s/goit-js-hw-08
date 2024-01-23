@@ -110,6 +110,7 @@ function onGalleryItemClick(event) {
   }
 
   instance.show();
+
   const currentImg = document.querySelector(".modal-img");
   currentImg.src = event.target.dataset.source;
   currentImg.alt = event.target.alt;
